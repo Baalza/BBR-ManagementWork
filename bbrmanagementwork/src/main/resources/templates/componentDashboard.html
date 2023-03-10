@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <!--Document meta-->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1"
+    />
+    <!--Stylesheet-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/flaticon.css}" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <!--*Document-->
+    <title>BBR</title>
+  </head>
+  <body>
+    <!--*  Navbar-->
+    <header>
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <div class="hero-adj">
+            <a class="navbar-brand" th:href="@{/index}">
+              <img
+                
+                th:src="@{/assets/Images/logo/hero2.png}"
+                alt=""
+                width="270"
+                height="58"
+                class="d-inline-block align-text-top"
+              />
+            </a>
+          </div>
+          <ul
+            class="nav justify-content-end"
+            style="right: 70px !important; margin-right: 70px !important"
+          >
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                id="navbarDarkDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+               
+              >
+              John Doe
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-dark"
+                aria-labelledby="navbarDarkDropdownMenuLink"
+              >
+                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user pe-2"></i>Edit</a></li>
+                <li><a class="dropdown-item" th:href="@{/bbr-workmanagement/login}"><i class="fa-solid fa-power-off pe-2"></i>Logout</a></li>
+              </ul>
+              <li class="nav-item">
+              <img
+                src="/assets/Images/splash/blank-profile-picture-973460__340.png"
+                class="rounded-circle"
+                style="height: 43px !important; width: 43px !important"
+              />
+            </li>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!--*  Section Home--> 
+   <div class="row justify-content-center">
+    <div class="col-auto text-center">
+        <h1 class="pt-3">Componenti</h1>
+    </div>
+</div>
+
+
+  
+    <div class="row pt-2 text-center rem-gutter">
+        <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu" th:switch="${work.type}">
+          <span th:case="'ordine'" class="badge bg-success text-dark mt-2">Ordine</span>
+          <span th:case="'ordinem'" class="badge bg-warning text-dark mt-2">Ordine Multiplo</span>
+          <span th:case="'stampo'" class="badge bg-danger text-dark mt-2">Stampo</span>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 border border-2 border-primary bg-cs-blu">
+          <h6 class="pt-2"><th:block th:utext="${work.name}"/></h6>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu">
+          <h6 class="pt-2"><th:block th:utext="${component.data}"/></h6>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 border border-2 border-primary bg-cs-blu">
+          <h6 class="pt-2"><th:block th:utext="${component.name}"/></h6>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu">
+          <h6 class="pt-2"><th:block th:utext="${work.cliente}"/></h6>
+        </div>
+       </div>
+
+
+
+   
+   <div class="row justify-content-center pt-5">
+    <div class="col-auto">
+        
+            <button class="btn btn-success rounded-pill btn-lg" data-bs-toggle="modal" data-bs-target="#modifyModal">
+             Modifica
+            </button>
+            <div class="modal fade " data-keyboard="false" data-backdrop="static" id="modifyModal" tabindex="-1" aria-labelledby="modifyModal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modifyModal">Modifica Componente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form th:action="@{/component/update/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+                      <div class="mb-3">
+                        <label for="denominazione" class="form-label">Denominazione</label>
+                        <input type="text" class="form-control" id="denominazione" required th:value="${component.name}"  th:field="*{component.name}">
+                        <div class="valid-feedback">
+                          Please provide a valid name.
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="datepicker" class="form-label">Data</label>
+                        <input type="text" class="form-control"  required disabled th:value="${component.data}">
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                        <div class="justify-content-center align-content-center text-center">
+                          <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Modifica</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+           
+      <div class="col-auto">
+        
+        <button class="btn btn-danger rounded-pill btn-lg" data-bs-toggle="modal" data-bs-target="#eliminateModal">
+         Elimina
+        </button>
+        <div class="modal fade" id="eliminateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="eliminateModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eliminateModal">Elimina Componente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  <div class="row justify-content-center text-center align-content-center mt-2" th:switch="${work.type}">
+                           <div class="col-mb-auto">
+                              <h6>Sei sicuro di voler eliminare il componente :</h6>
+                           </div>
+                          
+                       
+                      <div class="col-mb-auto">
+                        <h6 class="pt-2"> <th:block th:utext="${component.name}"/></h6>
+                    </div>
+                  </div>
+    
+              </div>
+              </div>
+              <div class="modal-footer">
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a th:href="@{/component/delete/{id} (id = ${component.id})}">
+                <button type="button" class="btn btn-danger">Elimina</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+    </div>
+   <div class="container">
+     <div class="row pt-4 text-center rem-gutter">
+      <div class="col-xs-8 col-sm-8 col-md-8 border border-2 border-primary bg-cs-blu">
+        <h4 class="pt-2">Denominazione</h4>
+        <div class="row text-center border-top border-2 border-success rem-gutter">
+        <h6 class="pt-2"><th:block th:utext="${component.name}"/></h6>
+      </div>
+     </div>
+  
+     <div class="col-xs-4 col-sm-4 col-md-4 border-top border-bottom border-end border-2 border-primary bg-cs-blu">
+      <a data-bs-toggle="modal" data-bs-target="#priceModal">
+      <h4 class="pt-2">Prezzo</h4>
+      <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block th:utext="${component.prezzo}"/></h6>
+    </div>
+  </a>
+   </div>
+  
+  <div class="modal fade " data-keyboard="false" data-backdrop="static" id="priceModal" tabindex="-1" aria-labelledby="priceModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="priceModal">Prezzo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form th:action="@{/component/update/price/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+            <div class="mb-3">
+              <label for="Prezzo" class="form-label">Prezzo</label>
+              <input type="text" class="form-control" id="Prezzo" required th:value="${component.prezzo}"  th:field="*{component.prezzo}">
+              <div class="valid-feedback">
+                Please provide a valid price.
+              </div>
+            </div>
+              <div class="justify-content-center align-content-center text-center">
+                <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+   </div>
+   <div class="row text-center rem-gutter">
+    <div class="col-xs-6 col-sm-6 col-md-6 border-start border-bottom border-end border-2 border-primary bg-cs-blu">
+      <h4 class="pt-2">Disegno</h4>
+      <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block /></h6>
+    </div>
+   </div>
+   <div class="col-xs-6 col-sm-6 col-md-6 border-end border-bottom border-2 border-primary bg-cs-blu">
+    <h4 class="pt-2">Cliente</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+    <h6 class="pt-2"><th:block th:utext="${work.cliente}"/></h6>
+   
+  </div>
+  <div class="row text-center border-top border-2 border-primary rem-gutter">
+    <h4 class="pt-2">Ordine</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+    <h6 class="pt-2"><th:block th:utext="${work.ordine}"/></h6>
+  </div>
+  </div>
+ </div>
+ </div>
+ <div class="row text-center rem-gutter">
+  <div class="col-xs-2 col-sm-2 col-md-2 border-start border-bottom border-end border-2 border-primary bg-cs-blu">
+    <a data-bs-toggle="modal" data-bs-target="#materialModal">
+    <h4 class="pt-2">Materiale</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+    <h6 class="pt-2"><th:block th:utext="${component.materiale}"/></h6>
+  </div>
+</a>
+ </div>
+ <div class="modal fade " data-keyboard="false" data-backdrop="static" id="materialModal" tabindex="-1" aria-labelledby="materialModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="materialModal">Materiale</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/material/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Materiale</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.materiale}"  th:field="*{component.materiale}">
+            <div class="valid-feedback">
+              Please provide a valid material.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+ <div class="col-xs-2 col-sm-2 col-md-2  border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#furnitureModal">
+  <h4 class="pt-2">Fornitore</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.fornitore}"/></h6>
+</div>
+  </a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="furnitureModal" tabindex="-1" aria-labelledby="furnitureModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="furnitureModal">Fornitore</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/furniture/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Fornitore</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.fornitore}"  th:field="*{component.fornitore}">
+            <div class="valid-feedback">
+              Please provide a valid furniture.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-2 col-sm-2 col-md-2  border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#pesoModal">
+  <h4 class="pt-2">Peso</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.peso} + 'Kg'"/></h6>
+</div>
+  </a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="pesoModal" tabindex="-1" aria-labelledby="pesoModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pesoModal">Peso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/peso/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Peso</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.peso}"  th:field="*{component.peso}">
+            <div class="valid-feedback">
+              Please provide a valid furniture.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-2 col-sm-2 col-md-2  border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#costruitiModal">
+  <h4 class="pt-2">Costruiti</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.costruiti}"/></h6>
+</div>
+</a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="costruitiModal" tabindex="-1" aria-labelledby="costruitiModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="costruitiModal">Costruiti</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/costruiti/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Costruiti</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.costruiti}"  th:field="*{component.costruiti}">
+            <div class="valid-feedback">
+              Please provide a valid number.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-2 col-sm-2 col-md-2  border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#consegnatiModal">
+  <h4 class="pt-2">Consegnati</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.consegnati}"/></h6>
+</div>
+  </a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="consegnatiModal" tabindex="-1" aria-labelledby="consegnatiModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="consegnatiModal">Consegnati</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/consegnati/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Consegnati</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.consegnati}"  th:field="*{component.consegnati}">
+            <div class="valid-feedback">
+              Please provide a valid number.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-2 col-sm-2 col-md-2  border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#magazzinoModal">
+  <h4 class="pt-2">Magazzino</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.magazzino}"/></h6>
+</div>
+</a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="magazzinoModal" tabindex="-1" aria-labelledby="magazzinoModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="magazzinoModal">Magazzino</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/magazzino/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Magazzino</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.magazzino}"  th:field="*{component.magazzino}">
+            <div class="valid-feedback">
+              Please provide a valid number.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row text-center rem-gutter">
+  <div class="col-xs-6 col-sm-6 col-md-6 border-start border-end border-bottom border-2 border-primary bg-cs-blu">
+    <h4 class="pt-2">Totale ore</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+    <h6 class="pt-2"><th:block th:utext="${component.totore}"/></h6>
+  </div>
+ </div>
+ <div class="col-xs-6 col-sm-6 col-md-6 border-bottom border-end border-2 border-primary bg-cs-blu">
+  <a data-bs-toggle="modal" data-bs-target="#lavEsterneModal">
+  <h4 class="pt-2">Lavorazioni esterne</h4>
+  <div class="row text-center border-top border-2 border-success rem-gutter">
+  <h6 class="pt-2"><th:block th:utext="${component.lavesterne}"/></h6>
+</div>
+  </a>
+</div>
+<div class="modal fade " data-keyboard="false" data-backdrop="static" id="lavEsterneModal" tabindex="-1" aria-labelledby="lavEsterneModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="lavEsterneModal">Lavorazioni Esterne</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/lavesterne/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Lavorazioni Esterne</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.lavesterne}"  th:field="*{component.lavesterne}">
+            <div class="valid-feedback">
+              Please provide a valid number.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row text-center rem-gutter">
+  <div class="col-xs-12 col-sm-12 col-md-12 border-start border-end border-bottom border-2 border-primary bg-cs-blu">
+    <a data-bs-toggle="modal" data-bs-target="#annotazioniModal">
+    <h4 class="pt-2">Annotazioni</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+    <h6 class="pt-2"><th:block th:utext="${component.annotazioni}"/></h6>
+  </div>
+    </a>
+ </div>
+ <div class="modal fade " data-keyboard="false" data-backdrop="static" id="annotazioniModal" tabindex="-1" aria-labelledby="annotazioniModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="annotazioniModal">Annotazioni</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/component/update/annotazioni/{id}(id = ${component.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+          <div class="mb-3">
+            <label for="Prezzo" class="form-label">Annotazioni</label>
+            <input type="text" class="form-control" id="Prezzo" required th:value="${component.annotazioni}"  th:field="*{component.annotazioni}">
+            <div class="valid-feedback">
+              Please provide a valid number.
+            </div>
+          </div>
+            <div class="justify-content-center align-content-center text-center">
+              <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row text-center rem-gutter border-start border-bottom border-end border-2 border-primary bg-cs-blu" th:each="worksheet : ${worksheets}">
+  <div class="col-xs-2 col-sm-2 col-md-2  border-end border-2 border-primary">
+    <h4 class="pt-2">Operatore</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block th:utext="${worksheet.name}"/></h6>
+    </div>
+  </div>
+  <div class="col-xs-2 col-sm-2 col-md-2  border-end border-2 border-primary">
+    <h4 class="pt-2">Data</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block th:utext="${worksheet.data}"/></h6>
+    </div>
+  </div>
+  <div class="col-xs-3 col-sm-3 col-md-3  border-end border-2 border-primary">
+    <a data-bs-toggle="modal" data-bs-target="#oreModal">
+    <h4 class="pt-2">Ora Inizio e Fine</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block th:utext="${worksheet.orainizio} + ' - ' + ${worksheet.orafine}"/></h6>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade " data-keyboard="false" data-backdrop="static" id="oreModal" tabindex="-1" aria-labelledby="oreModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="oreModal">Ora Inizio e Fine Lavorazione</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form th:action="@{/worksheet/update/ore/{id}/{idws}(id = ${component.id}, idws = ${worksheet.id})}" modelAttribute="component" class="g-3 needs-validation" novalidate  method="post">
+            <div class="mb-3">
+              <label for="denominazione" class="form-label">Ora Inizio</label>
+              <input type="text" class="form-control" id="denominazione" required th:value="${worksheet.orainizio}" th:field="*{worksheet.orainizio}">
+              <div class="valid-feedback">
+                Please provide a valid name.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="denominazione" class="form-label">Ora fine</label>
+              <input type="text" class="form-control" id="denominazione" required th:value="${worksheet.orafine}" th:field="*{worksheet.orafine}">
+              <div class="valid-feedback">
+                Please provide a valid name.
+              </div>
+            </div>
+              <div class="justify-content-center align-content-center text-center">
+                <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Invio</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-5 col-sm-5 col-md-5">
+    <h4 class="pt-2">Tipo Di Lavorazione</h4>
+    <div class="row text-center border-top border-2 border-success rem-gutter">
+      <h6 class="pt-2"><th:block th:utext="${worksheet.type}"/></h6>
+    </div>
+  </div>
+</div>
+
+
+
+
+   </div>
+
+   
+   <div class="row pt-4 justify-content-center">
+    <div class="col-xs-4 col-md-4 col-lg-4 text-center">
+      <button type="submit" class="btn btn-success bg-cs-blu rounded-pill txt-dark-green" data-bs-toggle="modal" data-bs-target="#addWork"><i class="fa-solid fa-plus txt-dark-green"></i>  <strong>Nuova Lavorazione</strong></button>
+    </div>
+    <div class="modal fade " data-keyboard="false" data-backdrop="static" id="addWork" tabindex="-1" aria-labelledby="addWork" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addWork">Nuova Lavorazione</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form th:action="@{/add/worksheet/{id}(id = ${component.id})}" modelAttribute="worksheet" class="g-3 needs-validation" novalidate  method="post">
+              <div class="mb-3">
+                <label for="denominazione" class="form-label">Operatore</label>
+                <input type="text" class="form-control" id="denominazione" required th:field="*{worksheet.name}">
+                <div class="valid-feedback">
+                  Please provide a valid name.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="datepicker" class="form-label">Data</label>
+                <input type="text" class="form-control" id="datepicker"  required disabled>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="denominazione" class="form-label">Ora Inizio</label>
+                <input type="text" class="form-control" id="denominazione" required th:field="*{worksheet.orainizio}">
+                <div class="valid-feedback">
+                  Please provide a valid name.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="denominazione" class="form-label">Ora fine</label>
+                <input type="text" class="form-control" id="denominazione" required th:field="*{worksheet.orafine}">
+                <div class="valid-feedback">
+                  Please provide a valid name.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="denominazione" class="form-label">Tipo lavorazione</label>
+                <input type="text" class="form-control" id="denominazione" required th:field="*{worksheet.type}">
+                <div class="valid-feedback">
+                  Please provide a valid name.
+                </div>
+              </div>
+                <div class="justify-content-center align-content-center text-center">
+                  <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Crea</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+    <!--Bootstrap core JS-->
+    <script
+      src="https://kit.fontawesome.com/f85002145c.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/assets/js/custom.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+
+
+

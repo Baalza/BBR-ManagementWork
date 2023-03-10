@@ -1,0 +1,55 @@
+body,
+html {
+  overflow-x: hidden;
+}
+.full-h {
+  height: calc(var(--vh, 1vh) * 100);
+}
+.hidden {
+  display: none;
+}
+.cont-h {
+  height: fit-content !important;
+}
+.primary {
+  color: #0d6efd !important;
+}
+@media (max-width: 576px) {
+  .adj-pt {
+    margin-top: 10px !important;
+  }
+}
+.container .feature--icon {
+  color: #ffae00;
+}
+.hero-adj {
+  margin-left: 40%;
+}
+@media (max-width: 900px) {
+  .hero-adj {
+    margin-left: 10% !important;
+  }
+}
+.bg-cs-blu {
+  background-color: #dbe5f4 !important;
+}
+a{
+  text-decoration: none !important;
+  
+}
+.text-white{
+  color: white !important;
+}
+.text-black{
+  color: black !important;
+}
+.txt-dark-green{
+  color: #006110 !important;
+  
+}
+.row.rem-gutter{
+  --bs-gutter-x: 0rem !important;
+}
+.row.border-success{
+  border-color: #033c22 !important;
+}
